@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PetFlow - Ajustes</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="app.js"></script>
+    <style>
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #005155;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        
+        .app-container {
+            max-width: 420px;
+            width: 100%;
+            height: 780px;
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+            background: #005155;
+        }
+        
+        .app-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 16px 12px 16px;
+            scroll-behavior: smooth;
+        }
+        .app-scroll::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        .app-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .app-scroll::-webkit-scrollbar-thumb {
+            background: transparent;
+        }
+        
+        .app-header {
+            padding: 16px 16px 10px 16px;
+            flex-shrink: 0;
+            background: #005155;
+        }
+        
+        .btn-back {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
+            font-weight: 500;
+            transition: all 0.15s ease;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .btn-back:hover {
+            background: rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .btn-admin-tag {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.04);
+            font-weight: 500;
+            transition: all 0.15s ease;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 9px;
+            cursor: pointer; /* ← ALTERADO: agora é pointer */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .btn-admin-tag:hover {
+            background: rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* ============================================================
+           CARDS DE CONFIGURAÇÃO - ESTILO PREMIUM
+           ============================================================ */
+        .card-config {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 10px;
+        }
+        .card-config:last-child {
+            margin-bottom: 0;
+        }
+        
+        .card-config-label {
+            color: rgba(255,255,255,0.3);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+        
+        .card-config-input {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.15s ease;
+            outline: none;
+        }
+        .card-config-input::placeholder {
+            color: rgba(255,255,255,0.2);
+        }
+        .card-config-input:focus {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+        }
+        .card-config-input.textarea {
+            resize: vertical;
+            min-height: 56px;
+        }
+        
+        /* ============================================================
+           AJUSTE: TEXTAREA DAS MENSAGENS - MAIOR ALTURA
+           ============================================================ */
+        .card-config-input.textarea-message {
+            resize: vertical;
+            min-height: 96px;
+            height: 96px;
+            line-height: 1.5;
+            padding: 10px 14px;
+        }
+        
+        /* ============================================================
+           AJUSTE: HINT DAS VARIÁVEIS
+           ============================================================ */
+        .card-config-hint {
+            color: rgba(255,255,255,0.22);
+            font-size: 9px;
+            line-height: 1.4;
+            margin-top: 7px;
+        }
+        
+        /* ============================================================
+           DIVISORES E TÍTULOS
+           ============================================================ */
+        .section-title {
+            color: rgba(255,255,255,0.2);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .section-description {
+            color: rgba(255,255,255,0.2);
+            font-size: 10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .footer-indicator {
+            padding: 10px 16px 14px 16px;
+            flex-shrink: 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        /* ============================================================
+           BOTÕES
+           ============================================================ */
+        .btn-save {
+            background: #FFFFFF;
+            color: #005155;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 14px;
+            border: none;
+            width: 100%;
+            font-size: 14px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .btn-save:hover {
+            background: #f0f0f0;
+            transform: scale(0.98);
+        }
+        .btn-save:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-reset {
+            background: rgba(209, 101, 101, 0.12);
+            color: #D16565;
+            border: 1px solid rgba(209, 101, 101, 0.15);
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 12px;
+            width: 100%;
+            font-size: 13px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-align: center;
+        }
+        .btn-reset:hover {
+            background: rgba(209, 101, 101, 0.20);
+            color: #E08080;
+        }
+
+        /* ============================================================
+           HORÁRIOS - LISTA MAIS COMPACTA
+           ============================================================ */
+        .horario-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .horario-item:last-child {
+            border-bottom: none;
+        }
+        .horario-item .horario-texto {
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            flex: 1;
+        }
+        .horario-item .btn-remover-horario {
+            background: rgba(209, 101, 101, 0.1);
+            color: #D16565;
+            border: none;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.15s ease;
+        }
+        .horario-item .btn-remover-horario:hover {
+            background: rgba(209, 101, 101, 0.2);
+        }
+        
+        .btn-adicionar-horario {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 4px 12px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.15s ease;
+        }
+        .btn-adicionar-horario:hover {
+            background: rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .add-horario-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .add-horario-row input {
+            flex: 1;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 6px 10px;
+            color: #FFFFFF;
+            font-size: 13px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            outline: none;
+        }
+        .add-horario-row input:focus {
+            border-color: rgba(255,255,255,0.2);
+        }
+        .add-horario-row input::placeholder {
+            color: rgba(255,255,255,0.2);
+        }
+        .add-horario-row .btn-adicionar-horario {
+            padding: 6px 14px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        /* ============================================================
+           DIAS FECHADOS - LISTA VERTICAL
+           ============================================================ */
+        .dias-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .dia-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.04);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .dia-item:hover {
+            background: rgba(255,255,255,0.06);
+        }
+        .dia-item.active {
+            border-color: rgba(209, 101, 101, 0.3);
+            background: rgba(209, 101, 101, 0.08);
+        }
+        .dia-item .dia-nome {
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            font-weight: 500;
+            flex: 1;
+        }
+        .dia-item.active .dia-nome {
+            color: #D16565;
+        }
+        .dia-item .dia-status {
+            color: rgba(255,255,255,0.2);
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .dia-item.active .dia-status {
+            color: #D16565;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast-container {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 300;
+            width: calc(100% - 48px);
+            max-width: 340px;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            width: 100%;
+            text-align: center;
+            animation: toastIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            margin-bottom: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35) !important;
+        }
+        .toast:last-child {
+            margin-bottom: 0;
+        }
+        .toast-out {
+            animation: toastOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .toast-success {
+            background: rgba(45, 143, 122, 0.92) !important;
+            color: #FFFFFF !important;
+            border: 1px solid rgba(255,255,255,0.18) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+        }
+        .toast-error {
+            background: rgba(209, 101, 101, 0.92) !important;
+            color: #FFFFFF !important;
+            border: 1px solid rgba(255,255,255,0.18) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+        }
+        .toast-info {
+            background: rgba(212, 163, 115, 0.92) !important;
+            color: #FFFFFF !important;
+            border: 1px solid rgba(255,255,255,0.18) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+        }
+
+        /* ============================================================
+           MODAIS - MESMO COMPORTAMENTO DA TELA ADMIN
+           ============================================================ */
+        .modal-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 200;
+            border-radius: 28px;
+            padding: 24px;
+            align-items: center;
+            justify-content: center;
+            
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            background: rgba(0, 81, 85, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: rgba(0, 81, 85, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 340px;
+            overflow: visible;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            
+            opacity: 0;
+            transform: translateY(20px) scale(0.96);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .modal-overlay.active .modal-content {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-overlay.fechando {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .modal-overlay.fechando .modal-content {
+            opacity: 0;
+            transform: translateY(20px) scale(0.96);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-header {
+            padding: 16px 20px 12px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-title {
+            color: #FFFFFF;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .modal-close {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.15s ease;
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.6);
+        }
+        .modal-close .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        .modal-body {
+            padding: 16px 20px;
+        }
+        .modal-body.text-center {
+            text-align: center;
+        }
+
+        .modal-footer {
+            padding: 12px 20px 20px 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-modal {
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.15s ease;
+            flex: 1;
+        }
+        .btn-modal:hover {
+            transform: scale(0.97);
+        }
+
+        .btn-modal-confirm {
+            background: #FFFFFF;
+            color: #005155;
+        }
+        .btn-modal-confirm:hover {
+            background: #f0f0f0;
+        }
+
+        .btn-modal-secondary {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .btn-modal-secondary:hover {
+            background: rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.8);
+        }
+
+        .btn-modal-danger {
+            background: rgba(209, 101, 101, 0.15);
+            color: #D16565;
+            border: 1px solid rgba(209, 101, 101, 0.15);
+        }
+        .btn-modal-danger:hover {
+            background: rgba(209, 101, 101, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- TELA DE AJUSTES - CONFIGURAÇÕES DO SISTEMA -->
+    <!-- ============================================================ -->
+    <div class="app-container" id="app">
+
+        <!-- HEADER -->
+        <div class="app-header">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <button class="btn-back" onclick="voltarParaAdmin()">Voltar</button>
+                    <span class="text-white font-bold text-lg tracking-tight">Ajustes</span>
+                </div>
+                <!-- ← ALTERADO: Adicionado onclick para navegar para admin -->
+                <span class="btn-admin-tag" onclick="voltarParaAdmin()">admin</span>
+            </div>
+            <div class="mt-3">
+                <h1 class="text-white font-semibold text-xl">Configurações do sistema</h1>
+                <p class="text-white/40 text-xs font-medium">Personalize o seu App</p>
+            </div>
+        </div>
+
+        <!-- SCROLL CONTENT -->
+        <div class="app-scroll">
+
+            <!-- ========================================================= -->
+            <!-- SEÇÃO 1: IDENTIDADE - CARD ÚNICO                            -->
+            <!-- ========================================================= -->
+            <section class="form-section">
+                <span class="section-title">Identidade</span>
+
+                <div class="card-config">
+                    <div class="card-config-label">Nome do estabelecimento</div>
+                    <input class="card-config-input" id="config-estabelecimento" type="text" placeholder="Digite o nome da loja" />
+
+                    <div style="margin-top: 12px;">
+                        <div class="card-config-label">Horário de funcionamento</div>
+                        <input class="card-config-input" id="config-horario" type="text" placeholder="Ex: 08:00 - 18:00" />
+                    </div>
+
+                    <div style="margin-top: 12px;">
+                        <div class="card-config-label">Dias de funcionamento</div>
+                        <input class="card-config-input" id="config-dias" type="text" placeholder="Ex: Segunda a Sábado" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- SEÇÃO 2: DIAS FECHADOS - LISTA VERTICAL                    -->
+            <!-- ========================================================= -->
+            <section class="form-section" style="margin-top: 16px;">
+                <span class="section-title">Dias fechados</span>
+                <span class="section-description">Selecione os dias em que o estabelecimento não funciona</span>
+
+                <div class="card-config">
+                    <div class="card-config-label">Dias fechados</div>
+                    <div class="dias-lista" id="dias-fechados-lista">
+                        <!-- Renderizado pelo JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- SEÇÃO 3: HORÁRIOS DISPONÍVEIS - LISTA COMPACTA             -->
+            <!-- ========================================================= -->
+            <section class="form-section" style="margin-top: 16px;">
+                <span class="section-title">Horários disponíveis</span>
+
+                <div class="card-config">
+                    <div class="card-config-label">Horários cadastrados</div>
+                    <div id="lista-horarios-config">
+                        <!-- Renderizado pelo JavaScript -->
+                    </div>
+                    <div class="add-horario-row">
+                        <input type="text" id="novo-horario-input" placeholder="Ex: 08:00" maxlength="5" />
+                        <button class="btn-adicionar-horario" onclick="adicionarHorario()">Adicionar</button>
+                    </div>
+                    <div style="color: rgba(255,255,255,0.15); font-size: 10px; margin-top: 4px;">
+                        Digite no formato HH:MM (ex: 08:00)
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- SEÇÃO 4: MENSAGENS AUTOMÁTICAS - CARD ÚNICO                -->
+            <!-- ========================================================= -->
+            <section class="form-section" style="margin-top: 16px;">
+                <span class="section-title">Mensagens automáticas</span>
+                <span class="section-description">Essas mensagens são usadas no menu "W" da tela Admin</span>
+
+                <div class="card-config">
+                    <div class="card-config-label">Confirmação</div>
+                    <textarea class="card-config-input textarea-message" id="config-msg-confirmacao" placeholder="Mensagem enviada ao confirmar"></textarea>
+                    <div class="card-config-hint">
+                        Variáveis: {nome} {pet} {data} {horario} {estabelecimento}
+                    </div>
+
+                    <div style="margin-top: 12px;">
+                        <div class="card-config-label">Lembrete</div>
+                        <textarea class="card-config-input textarea-message" id="config-msg-lembrete" placeholder="Mensagem de lembrete"></textarea>
+                        <div class="card-config-hint">
+                            Variáveis: {nome} {pet} {data} {horario} {estabelecimento}
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 12px;">
+                        <div class="card-config-label">Cancelamento</div>
+                        <textarea class="card-config-input textarea-message" id="config-msg-cancelamento" placeholder="Mensagem de cancelamento"></textarea>
+                        <div class="card-config-hint">
+                            Variáveis: {nome} {pet} {data} {horario} {estabelecimento}
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 12px;">
+                        <div class="card-config-label">WhatsApp (Primeiro contato)</div>
+                        <textarea class="card-config-input textarea-message" id="config-msg-whatsapp" placeholder="Texto inicial do WhatsApp"></textarea>
+                        <div class="card-config-hint">
+                            Variáveis: {nome} {pet} {data} {horario} {estabelecimento}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- SEÇÃO 5: SERVIÇOS E TIPOS - CARD ÚNICO                    -->
+            <!-- ========================================================= -->
+            <section class="form-section" style="margin-top: 16px;">
+                <span class="section-title">Serviços e tipos</span>
+                <span class="section-description">Essas listas são usadas nos selects do formulário de agendamento</span>
+
+                <div class="card-config">
+                    <div class="card-config-label">Serviços</div>
+                    <input class="card-config-input" id="config-servicos" type="text" placeholder="Separe por vírgula" />
+                    <div class="card-config-hint">
+                        Separe os serviços por vírgula (ex: Banho, Tosa, Consulta)
+                    </div>
+
+                    <div style="margin-top: 12px;">
+                        <div class="card-config-label">Tipos de pets</div>
+                        <input class="card-config-input" id="config-tipos" type="text" placeholder="Separe por vírgula" />
+                        <div class="card-config-hint">
+                            Separe os tipos por vírgula (ex: Cachorro, Gato, Coelho)
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- SEÇÃO 6: AÇÕES                                             -->
+            <!-- ========================================================= -->
+            <section class="form-section" style="margin-top: 16px;">
+                <span class="section-title">Ações</span>
+
+                <button class="btn-save" id="btn-salvar" onclick="salvarConfiguracoes()">
+                    Salvar todas as configurações
+                </button>
+
+                <div style="margin-top: 8px;">
+                    <button class="btn-reset" onclick="abrirModalConfirmacaoRestaurar()">
+                        Restaurar padrões
+                    </button>
+                </div>
+            </section>
+
+            <div style="height: 8px;"></div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-indicator">
+            <div class="flex items-center justify-between">
+                <span class="text-[9px] font-medium uppercase tracking-widest text-white/20">PetFlow v2.0</span>
+                <span class="text-[9px] font-medium text-white/20">Configurações</span>
+            </div>
+        </div>
+
+        <!-- ===== TOAST ===== -->
+        <div class="toast-container" id="toast-container"></div>
+
+        <!-- ============================================================ -->
+        <!-- MODAL DE CONFIRMAÇÃO - RESTAURAR PADRÕES                       -->
+        <!-- ============================================================ -->
+        <div class="modal-overlay" id="modal-restaurar">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">
+                        <span style="color: #D16565; font-size: 20px;">⚠️</span>
+                        Restaurar padrões
+                    </span>
+                    <button class="modal-close" onclick="fecharModal('modal-restaurar')">
+                        ✕
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p style="color: rgba(255,255,255,0.7); font-size: 14px;">
+                        Tem certeza que deseja restaurar as configurações padrão?
+                    </p>
+                    <p style="color: rgba(255,255,255,0.4); font-size: 12px; margin-top: 4px;">
+                        Todas as alterações serão perdidas.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-danger" onclick="confirmarRestaurar()">Restaurar</button>
+                    <button class="btn-modal btn-modal-secondary" onclick="fecharModal('modal-restaurar')">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // CONFIGURAÇÕES - USANDO O APP.JS
+        // ============================================================
+
+        // ============================================================
+        // FUNÇÕES DO MODAL
+        // ============================================================
+        function abrirModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('fechando');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function fecharModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.add('fechando');
+                setTimeout(() => {
+                    modal.classList.remove('active', 'fechando');
+                    document.body.style.overflow = '';
+                }, 250);
+            }
+        }
+
+        function abrirModalConfirmacaoRestaurar() {
+            abrirModal('modal-restaurar');
+        }
+
+        // Fechar modal ao clicar no backdrop
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharModal(this.id);
+                }
+            });
+        });
+
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    fecharModal(modal.id);
+                });
+            }
+        });
+
+        // ============================================================
+        // CARREGAR CONFIGURAÇÕES
+        // ============================================================
+        function carregarConfiguracoes() {
+            const config = App.config.load();
+            
+            document.getElementById('config-estabelecimento').value = config.estabelecimento || '';
+            document.getElementById('config-horario').value = config.horario || '';
+            document.getElementById('config-dias').value = config.dias_funcionamento || '';
+            
+            document.getElementById('config-msg-confirmacao').value = config.mensagens.confirmacao || '';
+            document.getElementById('config-msg-lembrete').value = config.mensagens.lembrete || '';
+            document.getElementById('config-msg-cancelamento').value = config.mensagens.cancelamento || '';
+            document.getElementById('config-msg-whatsapp').value = config.mensagens.whatsapp || '';
+            
+            const servicos = config.servicos || [];
+            document.getElementById('config-servicos').value = servicos.join(', ');
+            
+            const tipos = config.tipos_pets || [];
+            document.getElementById('config-tipos').value = tipos.join(', ');
+            
+            const horarios = config.horarios || [];
+            renderizarHorarios(horarios);
+            
+            // Carrega dias fechados
+            const diasFechados = config.dias_fechados || [];
+            renderizarDiasFechados(diasFechados);
+        }
+
+        // ============================================================
+        // RENDERIZAR DIAS FECHADOS - LISTA VERTICAL
+        // ============================================================
+        function renderizarDiasFechados(diasFechados) {
+            const container = document.getElementById('dias-fechados-lista');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+            
+            dias.forEach(dia => {
+                const div = document.createElement('div');
+                div.className = 'dia-item';
+                if (diasFechados.includes(dia)) {
+                    div.classList.add('active');
+                }
+                div.dataset.dia = dia;
+                
+                const isFechado = diasFechados.includes(dia);
+                const status = isFechado ? 'Fechado' : 'Aberto';
+                
+                div.innerHTML = `
+                    <span class="dia-nome">${dia}</span>
+                    <span class="dia-status">${status}</span>
+                `;
+                div.onclick = function() {
+                    this.classList.toggle('active');
+                    const isActive = this.classList.contains('active');
+                    const statusEl = this.querySelector('.dia-status');
+                    statusEl.textContent = isActive ? 'Fechado' : 'Aberto';
+                };
+                container.appendChild(div);
+            });
+        }
+
+        // ============================================================
+        // OBTER DIAS FECHADOS SELECIONADOS
+        // ============================================================
+        function getDiasFechadosSelecionados() {
+            const items = document.querySelectorAll('.dia-item.active');
+            const dias = [];
+            items.forEach(item => {
+                dias.push(item.dataset.dia);
+            });
+            return dias;
+        }
+
+        // ============================================================
+        // RENDERIZAR HORÁRIOS
+        // ============================================================
+        function renderizarHorarios(horarios) {
+            const container = document.getElementById('lista-horarios-config');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (!horarios || horarios.length === 0) {
+                container.innerHTML = `
+                    <div style="color: rgba(255,255,255,0.2); font-size: 12px; text-align:center; padding: 8px 0;">
+                        Nenhum horário cadastrado
+                    </div>
+                `;
+                return;
+            }
+            
+            horarios.forEach((horario, index) => {
+                const div = document.createElement('div');
+                div.className = 'horario-item';
+                div.innerHTML = `
+                    <span class="horario-texto">${horario}</span>
+                    <button class="btn-remover-horario" onclick="removerHorario(${index})">✕</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // ============================================================
+        // ADICIONAR HORÁRIO
+        // ============================================================
+        function adicionarHorario() {
+            const input = document.getElementById('novo-horario-input');
+            const valor = input.value.trim();
+            
+            if (!valor) {
+                App.ui.error('Digite um horário');
+                return;
+            }
+            
+            if (!App.utils.isValidTime(valor)) {
+                App.ui.error('Formato inválido. Use HH:MM (ex: 08:00)');
+                return;
+            }
+            
+            const [hora, minuto] = valor.split(':').map(Number);
+            if (hora < 0 || hora > 23 || minuto < 0 || minuto > 59) {
+                App.ui.error('Horário inválido');
+                return;
+            }
+            
+            const config = App.config.load();
+            if (!config.horarios) config.horarios = [];
+            
+            if (config.horarios.includes(valor)) {
+                App.ui.error('Este horário já existe');
+                return;
+            }
+            
+            config.horarios.push(valor);
+            config.horarios.sort();
+            
+            App.config.save(config);
+            renderizarHorarios(config.horarios);
+            input.value = '';
+            App.ui.success('Horário adicionado!');
+        }
+
+        // ============================================================
+        // REMOVER HORÁRIO
+        // ============================================================
+        function removerHorario(index) {
+            const config = App.config.load();
+            if (!config.horarios) return;
+            
+            config.horarios.splice(index, 1);
+            App.config.save(config);
+            renderizarHorarios(config.horarios);
+            App.ui.info('Horário removido!');
+        }
+
+        // ============================================================
+        // SALVAR CONFIGURAÇÕES
+        // ============================================================
+        function salvarConfiguracoes() {
+            const btn = document.getElementById('btn-salvar');
+            btn.disabled = true;
+            btn.textContent = 'Salvando...';
+            
+            const config = App.config.load();
+            
+            // Coleta dados
+            config.estabelecimento = document.getElementById('config-estabelecimento').value.trim() || 'PetFlow';
+            config.horario = document.getElementById('config-horario').value.trim() || '08:00 - 18:00';
+            config.dias_funcionamento = document.getElementById('config-dias').value.trim() || 'Segunda a Sábado';
+            
+            config.mensagens.confirmacao = document.getElementById('config-msg-confirmacao').value.trim();
+            config.mensagens.lembrete = document.getElementById('config-msg-lembrete').value.trim();
+            config.mensagens.cancelamento = document.getElementById('config-msg-cancelamento').value.trim();
+            config.mensagens.whatsapp = document.getElementById('config-msg-whatsapp').value.trim();
+            
+            const servicosStr = document.getElementById('config-servicos').value.trim();
+            config.servicos = servicosStr ? servicosStr.split(',').map(s => s.trim()).filter(s => s) : [];
+            
+            const tiposStr = document.getElementById('config-tipos').value.trim();
+            config.tipos_pets = tiposStr ? tiposStr.split(',').map(s => s.trim()).filter(s => s) : [];
+            
+            // Coleta dias fechados
+            config.dias_fechados = getDiasFechadosSelecionados();
+            
+            // Salva usando ConfigManager
+            App.config.save(config);
+            
+            App.ui.success('✅ Configurações salvas com sucesso!');
+            
+            btn.disabled = false;
+            btn.textContent = 'Salvar todas as configurações';
+        }
+
+        // ============================================================
+        // RESTAURAR PADRÕES
+        // ============================================================
+        function confirmarRestaurar() {
+            fecharModal('modal-restaurar');
+            setTimeout(() => {
+                App.config.reset();
+                carregarConfiguracoes();
+                App.ui.success('✅ Configurações restauradas!');
+            }, 300);
+        }
+
+        function restaurarPadroes() {
+            abrirModalConfirmacaoRestaurar();
+        }
+
+        // ============================================================
+        // VOLTAR PARA ADMIN
+        // ============================================================
+        function voltarParaAdmin() {
+            App.router.goTo('admin');
+        }
+
+        // ============================================================
+        // ESCUTAR MUDANÇAS (sincronização entre abas)
+        // ============================================================
+        App.sync.onConfigChange(() => {
+            carregarConfiguracoes();
+            App.ui.info('📥 Configurações atualizadas de outra aba!');
+        });
+
+        // ============================================================
+        // MASCARAR INPUT DE HORÁRIO
+        // ============================================================
+        document.getElementById('novo-horario-input').addEventListener('input', function(e) {
+            let valor = this.value.replace(/\D/g, '');
+            if (valor.length > 4) valor = valor.slice(0, 4);
+            
+            if (valor.length >= 2) {
+                const hora = valor.slice(0, 2);
+                const minuto = valor.slice(2);
+                let resultado = hora;
+                if (minuto) {
+                    resultado += ':' + minuto;
+                }
+                this.value = resultado;
+            } else {
+                this.value = valor;
+            }
+        });
+
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarConfiguracoes();
+        });
+
+        // ============================================================
+        // EXPOSIÇÃO GLOBAL
+        // ============================================================
+        window.salvarConfiguracoes = salvarConfiguracoes;
+        window.restaurarPadroes = restaurarPadroes;
+        window.voltarParaAdmin = voltarParaAdmin;
+        window.adicionarHorario = adicionarHorario;
+        window.removerHorario = removerHorario;
+        window.carregarConfiguracoes = carregarConfiguracoes;
+        window.getDiasFechadosSelecionados = getDiasFechadosSelecionados;
+        window.renderizarDiasFechados = renderizarDiasFechados;
+        window.abrirModal = abrirModal;
+        window.fecharModal = fecharModal;
+        window.abrirModalConfirmacaoRestaurar = abrirModalConfirmacaoRestaurar;
+        window.confirmarRestaurar = confirmarRestaurar;
+    </script>
+
+</body>
+</html>

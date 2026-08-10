@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PetFlow - Admin</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="app.js"></script>
+    <style>
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #005155;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        
+        .app-container {
+            max-width: 420px;
+            width: 100%;
+            height: 780px;
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+            background: #005155;
+        }
+        
+        .app-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 16px 12px 16px;
+            scroll-behavior: smooth;
+        }
+        .app-scroll::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        .app-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .app-scroll::-webkit-scrollbar-thumb {
+            background: transparent;
+        }
+        
+        .app-header {
+            padding: 14px 16px 10px 16px;
+            flex-shrink: 0;
+            background: #005155;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .btn-config {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
+            font-weight: 500;
+            transition: all 0.15s ease;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            white-space: nowrap;
+        }
+        .btn-config:hover {
+            background: rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.8);
+        }
+        .btn-config .material-symbols-outlined {
+            font-size: 14px;
+        }
+        
+        .btn-share {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.06);
+            font-weight: 500;
+            transition: all 0.15s ease;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            white-space: nowrap;
+        }
+        .btn-share:hover {
+            background: rgba(255,255,255,0.12);
+            color: #FFFFFF;
+        }
+        .btn-share .material-symbols-outlined {
+            font-size: 14px;
+        }
+        
+        .btn-confirm {
+            background: #FFFFFF;
+            color: #005155;
+            font-weight: 600;
+            transition: all 0.15s ease;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 9px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            white-space: nowrap;
+        }
+        .btn-confirm:hover {
+            background: #f0f0f0;
+            transform: scale(0.97);
+        }
+        
+        .btn-whatsapp {
+            background: rgba(37, 211, 102, 0.12);
+            color: #25D366;
+            border: 1px solid rgba(37, 211, 102, 0.15);
+            font-weight: 600;
+            transition: all 0.15s ease;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 9px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            white-space: nowrap;
+        }
+        .btn-whatsapp:hover {
+            background: rgba(37, 211, 102, 0.20);
+            transform: scale(0.97);
+        }
+        
+        .btn-more {
+            background: transparent;
+            color: rgba(255,255,255,0.2);
+            border: none;
+            font-weight: 400;
+            transition: all 0.15s ease;
+            padding: 2px 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+        }
+        .btn-more:hover {
+            color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.05);
+        }
+        .btn-more .material-symbols-outlined {
+            font-size: 16px;
+        }
+        
+        .card-stat {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+        .stat-label {
+            font-size: 9px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: rgba(255,255,255,0.4);
+            margin-top: 2px;
+        }
+        
+        .card-appointment {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            transition: all 0.15s ease;
+        }
+        .card-appointment:hover {
+            background: rgba(255, 255, 255, 0.09);
+        }
+        .card-appointment:last-child {
+            margin-bottom: 0;
+        }
+        
+        .appointment-time {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            width: 40px;
+            flex-shrink: 0;
+        }
+        .appointment-name {
+            color: #FFFFFF;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .appointment-tutor {
+            color: rgba(255,255,255,0.35);
+            font-size: 10px;
+        }
+        .appointment-service {
+            color: rgba(255,255,255,0.25);
+            font-size: 9px;
+            background: rgba(255,255,255,0.04);
+            padding: 1px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        .status-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .status-dot.pending {
+            background: #D4A373;
+        }
+        .status-dot.confirmed {
+            background: #2D8F7A;
+        }
+        .status-dot.completed {
+            background: #FFFFFF;
+            opacity: 0.4;
+        }
+        .status-dot.cancelled {
+            background: #D16565;
+        }
+        
+        .badge-pending {
+            background: rgba(212, 163, 115, 0.12);
+            color: #D4A373;
+            border: 1px solid rgba(212, 163, 115, 0.08);
+            font-size: 8px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .badge-confirmed {
+            background: rgba(45, 143, 122, 0.12);
+            color: #2D8F7A;
+            border: 1px solid rgba(45, 143, 122, 0.08);
+            font-size: 8px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .badge-completed {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.4);
+            border: 1px solid rgba(255,255,255,0.04);
+            font-size: 8px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .badge-cancelled {
+            background: rgba(209, 101, 101, 0.12);
+            color: #D16565;
+            border: 1px solid rgba(209, 101, 101, 0.08);
+            font-size: 8px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        
+        .footer-indicator {
+            padding: 8px 16px 12px 16px;
+            flex-shrink: 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        .date-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px 0 10px 0;
+        }
+        .date-nav button {
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 8px;
+            padding: 2px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.15s ease;
+        }
+        .date-nav button:hover {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.6);
+        }
+        .date-nav .date-center {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .date-nav .date-center strong {
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           ANIMAÇÕES DE TRANSIÇÃO (FASE 3.1) - AJUSTADAS
+           ============================================================ */
+
+        /* MODAIS - FADE IN + SLIDE UP */
+        .modal-overlay {
+            opacity: 0;
+            transition: opacity 0.25s ease;
+
+            /* Fundo ainda visível */
+            background: rgba(0, 81, 85, 0.35);
+
+            /* Desfoque moderado */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            display: flex;
+        }
+
+        .modal-content {
+            opacity: 0;
+            transform: translateY(20px) scale(0.96);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Modal mais sólido */
+            background: rgba(0, 81, 85, 0.82);
+
+            /* Desfoque mais intenso no modal */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .modal-overlay.active .modal-content {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* MODAIS - FECHAR (slide down) */
+        .modal-overlay.fechando {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .modal-overlay.fechando .modal-content {
+            opacity: 0;
+            transform: translateY(20px) scale(0.96);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* MENU FLUTUANTE - FADE IN + SCALE */
+        .menu-flutuante {
+            opacity: 0;
+            transform: scale(0.92) translateY(-4px);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            background: rgba(0, 81, 85, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .menu-flutuante.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: all;
+        }
+
+        /* WHATSAPP MENU - FADE IN + SCALE */
+        .whatsapp-menu {
+            opacity: 0;
+            transform: scale(0.92) translateY(-4px);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            background: rgba(0, 81, 85, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .whatsapp-menu.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: all;
+        }
+
+        /* SELECT OVERLAY - FADE IN + SCALE */
+        .select-options-overlay {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.92);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            background: rgba(0, 81, 85, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .select-options-overlay.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: all;
+        }
+
+        /* SELECT BACKDROP - FADE IN */
+        .select-backdrop {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            background: rgba(0, 81, 85, 0.35);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .select-backdrop.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 300;
+            width: calc(100% - 32px);
+            max-width: 360px;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(8px);
+            width: 100%;
+            text-align: center;
+            animation: toastIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            margin-bottom: 6px;
+        }
+        .toast:last-child {
+            margin-bottom: 0;
+        }
+        .toast-out {
+            animation: toastOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .toast-success {
+            background: rgba(45, 143, 122, 0.15);
+            color: #2D8F7A;
+        }
+        .toast-error {
+            background: rgba(209, 101, 101, 0.15);
+            color: #D16565;
+        }
+        .toast-info {
+            background: rgba(212, 163, 115, 0.15);
+            color: #D4A373;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(10px) scale(0.95);
+            }
+        }
+
+        /* ===== MODAIS ===== */
+        .modal-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 200;
+            border-radius: 28px;
+            padding: 24px;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            border-radius: 24px;
+            width: 100%;
+            max-width: 340px;
+            overflow: visible;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 16px 20px 12px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-title {
+            color: #FFFFFF;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .modal-title .material-symbols-outlined {
+            font-size: 18px;
+        }
+        .modal-close {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.15s ease;
+        }
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.10);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .modal-close .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        .modal-body {
+            padding: 16px 20px;
+            position: relative;
+        }
+        .modal-body.text-center {
+            text-align: center;
+        }
+
+        .modal-field {
+            margin-bottom: 12px;
+        }
+        .modal-field:last-child {
+            margin-bottom: 0;
+        }
+        .modal-field label {
+            display: block;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 3px;
+        }
+        .modal-field span {
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* ===== SELECT OVERLAY - FLUTUANTE SOBRE O MODAL ===== */
+        .select-overlay {
+            position: relative;
+            width: 100%;
+            cursor: pointer;
+            user-select: none;
+            z-index: 1;
+        }
+
+        .select-overlay .select-display {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px 32px 10px 14px;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 44px;
+        }
+
+        .select-overlay .select-display:hover {
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        .select-overlay .select-display .arrow {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .select-overlay .select-display .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .select-value {
+            color: #FFFFFF;
+            font-weight: 500;
+        }
+
+        /* ===== OPÇÕES EM OVERLAY FLUTUANTE (SOBRE O MODAL) ===== */
+        .select-options-overlay {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            max-width: 90vw;
+            border-radius: 16px;
+            z-index: 99999;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .select-options-overlay.active {
+            display: block;
+        }
+
+        .select-options-overlay .option-item {
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            text-align: center;
+        }
+
+        .select-options-overlay .option-item:last-child {
+            border-bottom: none;
+        }
+
+        .select-options-overlay .option-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #FFFFFF;
+        }
+
+        .select-options-overlay .option-item.selected {
+            background: rgba(45, 143, 122, 0.15);
+            color: #2D8F7A;
+            font-weight: 600;
+        }
+
+        .select-options-overlay .option-item.selected::after {
+            content: " ✓";
+            color: #2D8F7A;
+        }
+
+        .select-options-overlay::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .select-options-overlay::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .select-options-overlay::-webkit-scrollbar-thumb {
+            background: transparent;
+        }
+
+        /* ===== BACKDROP DO OVERLAY ===== */
+        .select-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99998;
+        }
+
+        .select-backdrop.active {
+            display: block;
+        }
+
+        .modal-footer {
+            padding: 12px 20px 20px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-modal {
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.15s ease;
+            flex: 1;
+        }
+        .btn-modal:hover {
+            transform: scale(0.97);
+        }
+
+        .btn-modal-confirm {
+            background: #FFFFFF;
+            color: #005155;
+        }
+        .btn-modal-confirm:hover {
+            background: #f0f0f0;
+        }
+
+        .btn-modal-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .btn-modal-secondary:hover {
+            background: rgba(255, 255, 255, 0.10);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-modal-danger {
+            background: rgba(209, 101, 101, 0.15);
+            color: #D16565;
+            border: 1px solid rgba(209, 101, 101, 0.15);
+        }
+        .btn-modal-danger:hover {
+            background: rgba(209, 101, 101, 0.25);
+        }
+
+        .status-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 16px;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .status-badge.pending {
+            background: rgba(212, 163, 115, 0.15);
+            color: #D4A373;
+            border: 1px solid rgba(212, 163, 115, 0.10);
+        }
+        .status-badge.confirmed {
+            background: rgba(45, 143, 122, 0.15);
+            color: #2D8F7A;
+            border: 1px solid rgba(45, 143, 122, 0.10);
+        }
+        .status-badge.completed {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .status-badge.cancelled {
+            background: rgba(209, 101, 101, 0.12);
+            color: #D16565;
+            border: 1px solid rgba(209, 101, 101, 0.10);
+        }
+
+        /* Menu flutuante */
+        .menu-flutuante {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 4px;
+            border-radius: 12px;
+            min-width: 170px;
+            overflow: hidden;
+            z-index: 50;
+        }
+        .menu-flutuante.active {
+            display: block;
+        }
+        .menu-item {
+            padding: 8px 14px;
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-item:hover {
+            background: rgba(255,255,255,0.06);
+            color: #FFFFFF;
+        }
+        .menu-item.danger {
+            color: #D16565;
+        }
+        .menu-item.danger:hover {
+            background: rgba(209, 101, 101, 0.10);
+        }
+        .menu-item .material-symbols-outlined {
+            font-size: 16px;
+            width: 20px;
+        }
+
+        /* ===== MENU WHATSAPP - MENSAGENS PRÉ-DEFINIDAS ===== */
+        .whatsapp-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 4px;
+            border-radius: 12px;
+            min-width: 200px;
+            overflow: hidden;
+            z-index: 50;
+        }
+        .whatsapp-menu.active {
+            display: block;
+        }
+        .whatsapp-item {
+            padding: 10px 14px;
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .whatsapp-item:last-child {
+            border-bottom: none;
+        }
+        .whatsapp-item:hover {
+            background: rgba(255,255,255,0.06);
+            color: #FFFFFF;
+        }
+        .whatsapp-item .mensagem-previa {
+            font-size: 10px;
+            color: rgba(255,255,255,0.35);
+            font-weight: 400;
+            margin-top: 2px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .whatsapp-item .icone {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- APP CONTAINER -->
+    <!-- ============================================================ -->
+    <div class="app-container" id="app">
+
+        <!-- ===== HEADER ===== -->
+        <div class="app-header">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-white text-[18px]">pets</span>
+                    <span class="text-white font-bold text-base tracking-tight" id="estabelecimento-nome">PetFlow</span>
+                    <span class="text-[7px] font-semibold uppercase tracking-wider text-white/30 bg-white/5 px-1.5 py-0.5 rounded-full border border-white/5">admin</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button class="btn-share" onclick="compartilharLink()">
+                        <span class="material-symbols-outlined">share</span>
+                        Link
+                    </button>
+                    <button class="btn-config" onclick="abrirConfiguracoes()">
+                        <span class="material-symbols-outlined">settings</span>
+                        Ajustes
+                    </button>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h1 class="text-white font-semibold text-lg" id="saudacao-texto">Bom dia</h1>
+                <p class="text-white/40 text-[11px] font-medium" id="data-texto"></p>
+            </div>
+        </div>
+
+        <!-- ===== SCROLL CONTENT ===== -->
+        <div class="app-scroll">
+
+            <!-- STATS -->
+            <div class="grid grid-cols-3 gap-2 mb-3">
+                <div class="card-stat">
+                    <div class="stat-number text-white" id="stat-total">0</div>
+                    <div class="stat-label">Hoje</div>
+                </div>
+                <div class="card-stat">
+                    <div class="stat-number text-[#D4A373]" id="stat-pendentes">0</div>
+                    <div class="stat-label">Pendentes</div>
+                </div>
+                <div class="card-stat">
+                    <div class="stat-number text-[#2D8F7A]" id="stat-confirmados">0</div>
+                    <div class="stat-label">Confirmados</div>
+                </div>
+            </div>
+
+            <!-- DATE NAVIGATOR -->
+            <div class="date-nav">
+                <button onclick="mudarDia(-1)">
+                    <span class="material-symbols-outlined" style="font-size:16px;">chevron_left</span>
+                </button>
+                <span class="date-center"><strong id="dia-atual">12</strong> de <span id="mes-atual">agosto</span></span>
+                <button onclick="mudarDia(1)">
+                    <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span>
+                </button>
+            </div>
+
+            <!-- ===== AGENDAMENTOS ===== -->
+            <div id="lista-agendamentos">
+                <!-- Renderizado pelo JavaScript -->
+            </div>
+
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer-indicator">
+            <div class="flex items-center justify-between">
+                <span class="text-[8px] font-medium uppercase tracking-widest text-white/20">PetFlow v2.0</span>
+                <span class="text-[8px] font-medium text-white/20" id="total-agendamentos">0 agendamentos</span>
+            </div>
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- TOAST CONTAINER -->
+        <!-- ========================================================== -->
+        <div class="toast-container" id="toast-container"></div>
+
+        <!-- ========================================================== -->
+        <!-- MODAIS -->
+        <!-- ========================================================== -->
+
+        <!-- MODAL: Detalhes -->
+        <div class="modal-overlay" id="modal-detalhes">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">
+                        <span class="material-symbols-outlined">info</span>
+                        Detalhes
+                    </span>
+                    <button class="modal-close" onclick="fecharModal('modal-detalhes')">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-field">
+                        <label>Pet</label>
+                        <span id="detalhe-pet">-</span>
+                    </div>
+                    <div class="modal-field">
+                        <label>Tutor</label>
+                        <span id="detalhe-tutor">-</span>
+                    </div>
+                    <div class="modal-field">
+                        <label>Serviço</label>
+                        <span id="detalhe-servico">-</span>
+                    </div>
+                    <div class="modal-field">
+                        <label>Data</label>
+                        <span id="detalhe-data">-</span>
+                    </div>
+                    <div class="modal-field">
+                        <label>Horário</label>
+                        <span id="detalhe-horario">-</span>
+                    </div>
+                    <div class="modal-field">
+                        <label>Status</label>
+                        <span id="detalhe-status" class="status-badge pending">-</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-secondary" onclick="fecharModal('modal-detalhes')" style="flex:1;">Fechar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: Confirmar -->
+        <div class="modal-overlay" id="modal-confirmar">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">
+                        <span class="material-symbols-outlined">check_circle</span>
+                        Confirmar
+                    </span>
+                    <button class="modal-close" onclick="fecharModal('modal-confirmar')">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p style="color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 4px;">
+                        Confirmar agendamento de <strong style="color: #FFFFFF;" id="confirmar-nome">-</strong>?
+                    </p>
+                    <p style="color: rgba(255,255,255,0.4); font-size: 12px;" id="confirmar-info">-</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-confirm" onclick="confirmarAcao('confirmar')">Confirmar</button>
+                    <button class="btn-modal btn-modal-secondary" onclick="fecharModal('modal-confirmar')">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: Remarcar -->
+        <div class="modal-overlay" id="modal-remarcar">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">
+                        <span class="material-symbols-outlined">edit_calendar</span>
+                        Remarcar
+                    </span>
+                    <button class="modal-close" onclick="fecharModal('modal-remarcar')">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-field">
+                        <label>Pet</label>
+                        <span id="remarcar-nome">-</span>
+                    </div>
+                    <div class="modal-field" style="position: relative;">
+                        <label>Novo horário</label>
+                        <!-- SELECT OVERLAY -->
+                        <div class="select-overlay" id="select-horario">
+                            <div class="select-display" onclick="toggleSelectOverlay()">
+                                <span class="select-value" id="select-valor-atual">09:00</span>
+                                <span class="arrow" id="select-arrow">▼</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-confirm" onclick="confirmarAcao('remarcar')">Salvar</button>
+                    <button class="btn-modal btn-modal-secondary" onclick="fecharModal('modal-remarcar')">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- OVERLAY DO SELECT (flutuante sobre o modal) -->
+        <div class="select-backdrop" id="select-backdrop" onclick="fecharSelectOverlay()"></div>
+        <div class="select-options-overlay" id="select-opcoes">
+            <!-- Opções geradas pelo JavaScript -->
+        </div>
+
+        <!-- MODAL: Concluir -->
+        <div class="modal-overlay" id="modal-concluir">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">
+                        <span class="material-symbols-outlined">task_alt</span>
+                        Concluir
+                    </span>
+                    <button class="modal-close" onclick="fecharModal('modal-concluir')">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p style="color: rgba(255,255,255,0.7); font-size: 14px;">
+                        Serviço de <strong style="color: #FFFFFF;" id="concluir-nome">-</strong> foi concluído?
+                    </p>
+                    <p style="color: rgba(255,255,255,0.4); font-size: 12px;">
+                        Isso marcará o agendamento como finalizado.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-confirm" onclick="confirmarAcao('concluir')">Concluir</button>
+                    <button class="btn-modal btn-modal-secondary" onclick="fecharModal('modal-concluir')">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: Cancelar -->
+        <div class="modal-overlay" id="modal-cancelar">
+            <div class="modal-content" style="border-color: rgba(209, 101, 101, 0.3);">
+                <div class="modal-header">
+                    <span class="modal-title" style="color: #D16565;">
+                        <span class="material-symbols-outlined" style="color: #D16565;">cancel</span>
+                        Cancelar
+                    </span>
+                    <button class="modal-close" onclick="fecharModal('modal-cancelar')">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p style="color: rgba(255,255,255,0.7); font-size: 14px;">
+                        Cancelar agendamento de <strong style="color: #FFFFFF;" id="cancelar-nome">-</strong>?
+                    </p>
+                    <p style="color: rgba(255,255,255,0.4); font-size: 12px;">
+                        Esta ação não pode ser desfeita.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-danger" onclick="confirmarAcao('cancelar')">Cancelar</button>
+                    <button class="btn-modal btn-modal-secondary" onclick="fecharModal('modal-cancelar')">Voltar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: Excluir -->
+        <div class="modal-overlay" id="modal-excluir">
+            <div class="modal-content" style="border-color: rgba(209, 101, 101, 0.3);">
+                <div class="modal-header">
+                    <span class="modal-title" style="color: #D16565;">
+                        <span class="material-symbols-outlined" style="color: #D16565;">delete</span>
+                        Excluir
+                    </span>
+                    <button class="modal-close" onclick="fecharModal('modal-excluir')">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p style="color: rgba(255,255,255,0.7); font-size: 14px;">
+                        Excluir permanentemente o agendamento de <strong style="color: #FFFFFF;" id="excluir-nome">-</strong>?
+                    </p>
+                    <p style="color: rgba(255,255,255,0.4); font-size: 12px;">
+                        Esta ação não pode ser desfeita.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-danger" onclick="confirmarAcao('excluir')">Excluir</button>
+                    <button class="btn-modal btn-modal-secondary" onclick="fecharModal('modal-excluir')">Voltar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================================================ -->
+    <script>
+        // ============================================================
+        // ADMIN - USANDO O APP.JS (FASE 2)
+        // ============================================================
+
+        // ============================================================
+        // ESTADO DE DATA (CORRIGIDO - usando Date real)
+        // ============================================================
+        let dataAtual = new Date();
+        dataAtual.setHours(0, 0, 0, 0);
+
+        let agendamentoSelecionado = null;
+
+        // ============================================================
+        // COMPARTILHAR LINK
+        // ============================================================
+        function compartilharLink() {
+            const link = 'https://www.google.com/';
+            const mensagem = 
+                'PetFlow - Agendamento de Serviços\n\n' +
+                'Olá! Clique no link abaixo para agendar seu pet:\n' +
+                '\n' +
+                link + '\n' +
+                '\n' +
+                'Aguardamos você e seu pet! 🐾';
+            const url = 'https://wa.me/?text=' + encodeURIComponent(mensagem);
+            window.open(url, '_blank');
+            App.ui.success('Link enviado via WhatsApp!');
+        }
+
+        // ============================================================
+        // ABRIR CONFIGURAÇÕES
+        // ============================================================
+        function abrirConfiguracoes() {
+            App.router.goTo('configuracoes');
+        }
+
+        // ============================================================
+        // MUDAR DIA (CORRIGIDO - usando Date)
+        // ============================================================
+        function mudarDia(delta) {
+            dataAtual.setDate(dataAtual.getDate() + delta);
+            atualizarInterfaceData();
+            atualizarAgenda();
+        }
+
+        // ============================================================
+        // ATUALIZAR INTERFACE DA DATA
+        // ============================================================
+        function atualizarInterfaceData() {
+            const dia = dataAtual.getDate();
+            const mes = dataAtual.toLocaleString('pt-BR', { month: 'long' });
+            const diaSemana = dataAtual.toLocaleString('pt-BR', { weekday: 'long' });
+            
+            document.getElementById('dia-atual').textContent = dia;
+            document.getElementById('mes-atual').textContent = mes;
+            document.getElementById('data-texto').textContent = 
+                `${dia} de ${mes} · ${diaSemana}`;
+        }
+
+        // ============================================================
+        // FORMATAR DATA PARA DD/MM/AAAA
+        // ============================================================
+        function getDataFormatada() {
+            const dia = String(dataAtual.getDate()).padStart(2, '0');
+            const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+            const ano = dataAtual.getFullYear();
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        // ============================================================
+        // ATUALIZAR AGENDA - USANDO APPOINTMENT MANAGER
+        // ============================================================
+        function atualizarAgenda() {
+            const container = document.getElementById('lista-agendamentos');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const dataAtualStr = getDataFormatada();
+
+            // CARREGA DO APPOINTMENT MANAGER
+            const agendamentos = App.appointments.load();
+            const agendamentosHoje = agendamentos.filter(a => a.data === dataAtualStr);
+
+            const counts = App.appointments.getStatusCounts(dataAtualStr);
+
+            document.getElementById('stat-total').textContent = counts.total;
+            document.getElementById('stat-pendentes').textContent = counts.pendentes;
+            document.getElementById('stat-confirmados').textContent = counts.confirmados;
+            document.getElementById('total-agendamentos').textContent = `${counts.total} agendamento${counts.total > 1 ? 's' : ''}`;
+
+            // Verifica se é dia fechado
+            const isFechado = !App.appointments.isDataDisponivel(dataAtualStr);
+
+            if (isFechado) {
+                container.innerHTML = `
+                    <div style="text-align:center;padding:40px 0;color:rgba(255,255,255,0.2);">
+                        <span class="material-symbols-outlined" style="font-size:40px;display:block;margin-bottom:12px;">block</span>
+                        <div style="font-size:14px;font-weight:500;color:rgba(255,255,255,0.4);">Dia fechado 🐾</div>
+                        <div style="font-size:12px;margin-top:4px;">Não há agendamentos para este dia.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            if (agendamentosHoje.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;padding:40px 0;color:rgba(255,255,255,0.2);">
+                        <span class="material-symbols-outlined" style="font-size:40px;display:block;margin-bottom:12px;">calendar_month</span>
+                        <div style="font-size:14px;font-weight:500;">Nenhum agendamento para hoje</div>
+                        <div style="font-size:12px;margin-top:4px;">Compartilhe o link com os clientes!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            agendamentosHoje.sort((a, b) => a.horario.localeCompare(b.horario));
+
+            agendamentosHoje.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'card-appointment';
+                div.dataset.id = item.id;
+
+                const statusMap = {
+                    'pendente': { dot: 'pending', badge: 'badge-pending', label: 'pendente' },
+                    'confirmado': { dot: 'confirmed', badge: 'badge-confirmed', label: 'confirmado' },
+                    'concluido': { dot: 'completed', badge: 'badge-completed', label: 'concluído' },
+                    'cancelado': { dot: 'cancelled', badge: 'badge-cancelled', label: 'cancelado' }
+                };
+                const statusInfo = statusMap[item.status] || statusMap['pendente'];
+
+                div.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <div class="appointment-time">${item.horario}</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1.5 min-w-0">
+                                    <span class="appointment-name truncate">${item.nome}</span>
+                                    <span class="status-dot ${statusInfo.dot} flex-shrink-0"></span>
+                                    <span class="${statusInfo.badge} flex-shrink-0">${statusInfo.label}</span>
+                                </div>
+                                <div class="flex items-center gap-1 flex-shrink-0" style="position:relative;">
+                                    ${item.status === 'pendente' ? `<button class="btn-confirm" onclick="abrirConfirmar(${item.id})">OK</button>` : ''}
+                                    ${item.status !== 'cancelado' ? `<button class="btn-whatsapp" onclick="toggleWhatsAppMenu(event, ${item.id})">W</button>` : ''}
+                                    <button class="btn-more" onclick="toggleMenu(event, ${item.id})">
+                                        <span class="material-symbols-outlined">more_horiz</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="appointment-tutor">${item.tutor}</div>
+                            <div style="margin-top:2px;">
+                                <span class="appointment-service">${item.servico}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // ============================================================
+        // MENU WHATSAPP - USANDO CONFIGURAÇÕES DO APP.JS
+        // ============================================================
+        function toggleWhatsAppMenu(event, id) {
+            event.stopPropagation();
+
+            document.querySelectorAll('.whatsapp-menu').forEach(m => m.remove());
+            document.querySelectorAll('.menu-flutuante').forEach(m => m.remove());
+
+            const btn = event.currentTarget;
+            const agendamentos = App.appointments.load();
+            const item = agendamentos.find(a => a.id === id);
+            if (!item) return;
+
+            const config = App.config.load();
+            const estabelecimento = config.estabelecimento || 'PetFlow';
+            const mensagens = config.mensagens || {};
+
+            const menu = document.createElement('div');
+            menu.className = 'whatsapp-menu active';
+            menu.style.position = 'absolute';
+            menu.style.right = '0';
+            menu.style.top = '100%';
+            menu.style.marginTop = '4px';
+
+            const listaMensagens = [
+                { 
+                    label: 'Confirmação', 
+                    template: mensagens.confirmacao || 'Olá {nome}! Seu agendamento foi confirmado. Aguardamos você e {pet} em breve!',
+                    icone: '✅'
+                },
+                { 
+                    label: 'Lembrete', 
+                    template: mensagens.lembrete || 'Olá {nome}! Lembrete: seu agendamento para {pet} é amanhã às {horario}.',
+                    icone: '🔔'
+                },
+                { 
+                    label: 'Cancelamento', 
+                    template: mensagens.cancelamento || 'Olá {nome}! Infelizmente precisamos cancelar o agendamento de {pet}. Entre em contato para remarcar.',
+                    icone: '❌'
+                },
+                { 
+                    label: 'Primeiro contato', 
+                    template: mensagens.whatsapp || 'Olá! Aqui é do {estabelecimento}. Gostaria de confirmar o agendamento de {pet} para {data} às {horario}.',
+                    icone: '💬'
+                }
+            ];
+
+            const hoje = App.utils.getToday();
+
+            listaMensagens.forEach(msg => {
+                let texto = msg.template
+                    .replace(/{nome}/g, item.tutor)
+                    .replace(/{pet}/g, item.nome)
+                    .replace(/{horario}/g, item.horario)
+                    .replace(/{data}/g, item.data || hoje)
+                    .replace(/{estabelecimento}/g, estabelecimento);
+
+                const div = document.createElement('div');
+                div.className = 'whatsapp-item';
+                div.innerHTML = `
+                    <span class="icone">${msg.icone}</span>
+                    ${msg.label}
+                    <span class="mensagem-previa">${texto.substring(0, 50)}${texto.length > 50 ? '...' : ''}</span>
+                `;
+                div.onclick = function(e) {
+                    e.stopPropagation();
+                    menu.remove();
+                    enviarMensagemWhatsApp(item, texto);
+                };
+                menu.appendChild(div);
+            });
+
+            btn.style.position = 'relative';
+            btn.appendChild(menu);
+
+            void menu.offsetWidth;
+
+            setTimeout(() => {
+                document.addEventListener('click', function closeMenu() {
+                    menu.remove();
+                    document.removeEventListener('click', closeMenu);
+                });
+            }, 10);
+        }
+
+        // ============================================================
+        // ENVIAR MENSAGEM WHATSAPP
+        // ============================================================
+        function enviarMensagemWhatsApp(item, mensagem) {
+            const url = 'https://wa.me/?text=' + encodeURIComponent(mensagem);
+            window.open(url, '_blank');
+            App.ui.success(`📱 Mensagem enviada para ${item.tutor}!`);
+        }
+
+        // ============================================================
+        // MENU FLUTUANTE (CORRIGIDO - sem eval)
+        // ============================================================
+        function toggleMenu(event, id) {
+            event.stopPropagation();
+
+            document.querySelectorAll('.menu-flutuante').forEach(m => m.remove());
+            document.querySelectorAll('.whatsapp-menu').forEach(m => m.remove());
+
+            const btn = event.currentTarget;
+            const agendamentos = App.appointments.load();
+            const item = agendamentos.find(a => a.id === id);
+            if (!item) return;
+
+            const menu = document.createElement('div');
+            menu.className = 'menu-flutuante active';
+            menu.style.position = 'absolute';
+            menu.style.right = '0';
+            menu.style.top = '100%';
+            menu.style.marginTop = '4px';
+
+            const itens = [
+                { label: 'Ver detalhes', icon: 'info', fn: () => abrirDetalhes(id) },
+                { label: 'Remarcar horário', icon: 'edit_calendar', fn: () => abrirRemarcar(id) },
+                { label: 'Marcar como concluído', icon: 'task_alt', fn: () => abrirConcluir(id) },
+                { label: 'Cancelar agendamento', icon: 'cancel', fn: () => abrirCancelar(id), danger: true },
+                { label: 'Excluir', icon: 'delete', fn: () => abrirExcluir(id), danger: true }
+            ];
+
+            const opcoesFiltradas = itens.filter(i => {
+                if (i.label.includes('Concluir') && (item.status === 'concluido' || item.status === 'cancelado')) return false;
+                if (i.label.includes('Cancelar') && (item.status === 'cancelado')) return false;
+                return true;
+            });
+
+            opcoesFiltradas.forEach(i => {
+                const div = document.createElement('div');
+                div.className = `menu-item${i.danger ? ' danger' : ''}`;
+                div.innerHTML = `
+                    <span class="material-symbols-outlined">${i.icon}</span>
+                    ${i.label}
+                `;
+                div.onclick = function(e) {
+                    e.stopPropagation();
+                    menu.remove();
+                    i.fn();
+                };
+                menu.appendChild(div);
+            });
+
+            btn.style.position = 'relative';
+            btn.appendChild(menu);
+
+            void menu.offsetWidth;
+
+            setTimeout(() => {
+                document.addEventListener('click', function closeMenu() {
+                    menu.remove();
+                    document.removeEventListener('click', closeMenu);
+                });
+            }, 10);
+        }
+
+        // ============================================================
+        // FUNÇÕES DOS MODAIS (ATUALIZADAS COM TRANSIÇÕES)
+        // ============================================================
+        function abrirModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('fechando');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function fecharModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.add('fechando');
+                setTimeout(() => {
+                    modal.classList.remove('active', 'fechando');
+                    document.body.style.overflow = '';
+                }, 250);
+            }
+        }
+
+        function getAgendamento(id) {
+            const agendamentos = App.appointments.load();
+            return agendamentos.find(a => a.id === id);
+        }
+
+        function abrirDetalhes(id) {
+            const item = getAgendamento(id);
+            if (!item) return;
+            agendamentoSelecionado = item;
+            document.getElementById('detalhe-pet').textContent = item.nome;
+            document.getElementById('detalhe-tutor').textContent = item.tutor;
+            document.getElementById('detalhe-servico').textContent = item.servico;
+            document.getElementById('detalhe-data').textContent = item.data || App.utils.getToday();
+            document.getElementById('detalhe-horario').textContent = item.horario;
+            const statusEl = document.getElementById('detalhe-status');
+            const statusMap = {
+                'pendente': 'Pendente',
+                'confirmado': 'Confirmado',
+                'concluido': 'Concluído',
+                'cancelado': 'Cancelado'
+            };
+            statusEl.textContent = statusMap[item.status] || item.status;
+            statusEl.className = `status-badge ${item.status}`;
+            abrirModal('modal-detalhes');
+        }
+
+        function abrirConfirmar(id) {
+            const item = getAgendamento(id);
+            if (!item) return;
+            agendamentoSelecionado = item;
+            document.getElementById('confirmar-nome').textContent = item.nome;
+            document.getElementById('confirmar-info').textContent =
+                `${item.tutor} • ${item.horario} • ${item.servico}`;
+            abrirModal('modal-confirmar');
+        }
+
+        // ============================================================
+        // SELECT OVERLAY - FUNÇÕES
+        // ============================================================
+        const opcoesHorarios = [
+            '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
+            '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+            '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+            '17:00', '17:30', '18:00'
+        ];
+
+        function toggleSelectOverlay() {
+            const overlay = document.getElementById('select-opcoes');
+            const backdrop = document.getElementById('select-backdrop');
+            const arrow = document.getElementById('select-arrow');
+            const isOpen = overlay.classList.contains('active');
+            
+            if (isOpen) {
+                overlay.classList.remove('active');
+                backdrop.classList.remove('active');
+                arrow.classList.remove('open');
+            } else {
+                const valorAtual = document.getElementById('select-valor-atual').textContent;
+                const container = overlay;
+                container.innerHTML = '';
+                
+                opcoesHorarios.forEach(horario => {
+                    const div = document.createElement('div');
+                    div.className = 'option-item';
+                    if (horario === valorAtual) div.classList.add('selected');
+                    div.dataset.valor = horario;
+                    div.textContent = horario;
+                    div.onclick = function() {
+                        selecionarHorarioOverlay(horario);
+                    };
+                    container.appendChild(div);
+                });
+                
+                overlay.classList.add('active');
+                backdrop.classList.add('active');
+                arrow.classList.add('open');
+            }
+        }
+
+        function selecionarHorarioOverlay(valor) {
+            document.getElementById('select-valor-atual').textContent = valor;
+            
+            const overlay = document.getElementById('select-opcoes');
+            const backdrop = document.getElementById('select-backdrop');
+            const arrow = document.getElementById('select-arrow');
+            overlay.classList.remove('active');
+            backdrop.classList.remove('active');
+            arrow.classList.remove('open');
+        }
+
+        function fecharSelectOverlay() {
+            const overlay = document.getElementById('select-opcoes');
+            const backdrop = document.getElementById('select-backdrop');
+            const arrow = document.getElementById('select-arrow');
+            overlay.classList.remove('active');
+            backdrop.classList.remove('active');
+            arrow.classList.remove('open');
+        }
+
+        function abrirRemarcar(id) {
+            const item = getAgendamento(id);
+            if (!item) return;
+            agendamentoSelecionado = item;
+            document.getElementById('remarcar-nome').textContent = item.nome;
+            document.getElementById('select-valor-atual').textContent = item.horario;
+            abrirModal('modal-remarcar');
+        }
+
+        function abrirConcluir(id) {
+            const item = getAgendamento(id);
+            if (!item) return;
+            agendamentoSelecionado = item;
+            document.getElementById('concluir-nome').textContent = item.nome;
+            abrirModal('modal-concluir');
+        }
+
+        function abrirCancelar(id) {
+            const item = getAgendamento(id);
+            if (!item) return;
+            agendamentoSelecionado = item;
+            document.getElementById('cancelar-nome').textContent = item.nome;
+            abrirModal('modal-cancelar');
+        }
+
+        function abrirExcluir(id) {
+            const item = getAgendamento(id);
+            if (!item) return;
+            agendamentoSelecionado = item;
+            document.getElementById('excluir-nome').textContent = item.nome;
+            abrirModal('modal-excluir');
+        }
+
+        // ============================================================
+        // CONFIRMAR AÇÃO - USANDO APPOINTMENT MANAGER
+        // ============================================================
+        function confirmarAcao(acao) {
+            if (!agendamentoSelecionado) return;
+
+            const item = agendamentoSelecionado;
+
+            switch (acao) {
+                case 'confirmar':
+                    App.appointments.update(item.id, { status: 'confirmado' });
+                    App.ui.success(`${item.nome} confirmado!`);
+                    break;
+                case 'concluir':
+                    App.appointments.update(item.id, { status: 'concluido' });
+                    App.ui.success(`${item.nome} concluído!`);
+                    break;
+                case 'cancelar':
+                    App.appointments.update(item.id, { status: 'cancelado' });
+                    App.ui.error(`${item.nome} cancelado`);
+                    break;
+                case 'excluir':
+                    App.appointments.delete(item.id);
+                    App.ui.error(`${item.nome} excluído`);
+                    break;
+                case 'remarcar':
+                    const novoHorario = document.getElementById('select-valor-atual').textContent;
+                    if (novoHorario) {
+                        App.appointments.update(item.id, { horario: novoHorario });
+                        App.ui.info(`Horário alterado para ${novoHorario}`);
+                    }
+                    break;
+            }
+
+            // Fecha todos os modais com animação
+            document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                fecharModal(modal.id);
+            });
+            fecharSelectOverlay();
+            atualizarAgenda();
+            agendamentoSelecionado = null;
+        }
+
+        // Fechar modais ao clicar fora (com animação)
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharModal(this.id);
+                    fecharSelectOverlay();
+                }
+            });
+        });
+
+        // Fechar com ESC (com animação)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    fecharModal(modal.id);
+                });
+                fecharSelectOverlay();
+            }
+        });
+
+        // ============================================================
+        // SINCroniza com MUDANÇAS no APP.JS
+        // ============================================================
+        App.sync.onAppointmentsChange(() => {
+            atualizarAgenda();
+        });
+
+        App.sync.onConfigChange((config) => {
+            document.getElementById('estabelecimento-nome').textContent = config.estabelecimento || 'PetFlow';
+            atualizarAgenda();
+        });
+
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const config = App.config.load();
+            document.getElementById('estabelecimento-nome').textContent = config.estabelecimento || 'PetFlow';
+            document.getElementById('saudacao-texto').textContent = App.utils.getSaudacao();
+            atualizarInterfaceData();
+            atualizarAgenda();
+        });
+
+        // ============================================================
+        // EXPOSIÇÃO GLOBAL
+        // ============================================================
+        window.mudarDia = mudarDia;
+        window.atualizarAgenda = atualizarAgenda;
+        window.compartilharLink = compartilharLink;
+        window.abrirConfiguracoes = abrirConfiguracoes;
+        window.abrirDetalhes = abrirDetalhes;
+        window.abrirConfirmar = abrirConfirmar;
+        window.abrirRemarcar = abrirRemarcar;
+        window.abrirConcluir = abrirConcluir;
+        window.abrirCancelar = abrirCancelar;
+        window.abrirExcluir = abrirExcluir;
+        window.confirmarAcao = confirmarAcao;
+        window.abrirModal = abrirModal;
+        window.fecharModal = fecharModal;
+        window.toggleMenu = toggleMenu;
+        window.toggleWhatsAppMenu = toggleWhatsAppMenu;
+        window.enviarMensagemWhatsApp = enviarMensagemWhatsApp;
+        window.toggleSelectOverlay = toggleSelectOverlay;
+        window.selecionarHorarioOverlay = selecionarHorarioOverlay;
+        window.fecharSelectOverlay = fecharSelectOverlay;
+    </script>
+
+</body>
+</html>
